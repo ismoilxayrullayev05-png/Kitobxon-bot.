@@ -1,0 +1,254 @@
+import { useState } from "react";
+
+const books = [
+  { id: 1,  title: "Mahbub ul-qulub",                                      author: "Alisher Navoiy",                         mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Mahbub+ul+qulub+Navoiy+audio+kitob" },
+  { id: 2,  title: "Boburnoma",                                             author: "Zahiriddin Muhammad Bobur",               mutolaa: false, audioUrl: "https://www.youtube.com/watch?v=9zqOB_yV2Lg" },
+  { id: 3,  title: "Qasdi safar (sayohat xotiralari)",                      author: "Mahmudxo'ja Behbudiy",                   mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Qasdi+safar+Behbudiy+audio+kitob" },
+  { id: 4,  title: "Ijtimoiy odoblar",                                      author: "Shayx Muhammad Sodiq Muhammad Yusuf",    mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Ijtimoiy+odoblar+Muhammad+Yusuf+audio+kitob" },
+  { id: 5,  title: "Oila",                                                  author: "Fitrat",                                 mutolaa: false, audioUrl: "https://www.youtube.com/results?search_query=Oila+Fitrat+audio+kitob+uzbek" },
+  { id: 6,  title: "Olim yetishtirgan onalar",                              author: "Murod Tosun",                            mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Olim+yetishtirgan+onalar+Murod+Tosun+audio" },
+  { id: 7,  title: "O'tkan kunlar (roman)",                                 author: "Abdulla Qodiriy",                        mutolaa: false, audioUrl: "https://www.youtube.com/watch?v=K8gJWdivfhY" },
+  { id: 8,  title: "Yaldo kechasi (roman)",                                 author: "Xayriddin Sulton",                       mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Yaldo+kechasi+Xayriddin+Sulton+audio+kitob" },
+  { id: 9,  title: "Yo'qotganlarim va topganlarim",                         author: "Said Ahmad",                             mutolaa: false, audioUrl: "https://www.youtube.com/results?search_query=Yo%27qotganlarim+va+topganlarim+Said+Ahmad+audio" },
+  { id: 10, title: "Oydinda yurgan odamlar (qissa)",                        author: "Tog'ay Murod",                           mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Oydinda+yurgan+odamlar+Tog%27ay+Murod+audio" },
+  { id: 11, title: "Qoraqalpoqnoma (roman-esse)",                           author: "To'lepbergen Qaipbergenov",               mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Qoraqalpoqnoma+audio+kitob" },
+  { id: 12, title: "Cho'qqida qolgan ovchining ohi-zori",                   author: "Chingiz Aytmatov, Muxtor Shoxonov",       mutolaa: false, audioUrl: "https://www.youtube.com/results?search_query=Cho%27qqida+qolgan+ovchining+audio+kitob" },
+  { id: 13, title: "Oybegim mening",                                        author: "Zarifa Saidnosirova",                    mutolaa: false, audioUrl: "https://www.youtube.com/results?search_query=Oybegim+mening+Zarifa+Saidnosirova+audio" },
+  { id: 14, title: "Bu kishim - ustoz, men - shogird (esse)",               author: "Shukur Xolmirzaev",                      mutolaa: false, audioUrl: "https://www.youtube.com/results?search_query=Shukur+Xolmirzaev+audio+kitob" },
+  { id: 15, title: "Botir Tangriqut (roman)",                               author: "Isajon Sulton",                          mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Botir+Tangriqut+Isajon+Sulton+audio+kitob" },
+  { id: 16, title: "Giryon (roman)",                                        author: "Nazar Eshonqul",                         mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Giryon+Nazar+Eshonqul+audio+kitob" },
+  { id: 17, title: "Bir asr hikoyati (temirchidan qolgan tillolar) (qissa)", author: "Ne'mat Aminov",                          mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Ne%27mat+Aminov+audio+kitob" },
+  { id: 18, title: "Momaqaldiroq ostida sayr (roman)",                      author: "Erkin A'zam",                            mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Momaqaldiroq+ostida+sayr+Erkin+Azam+audio" },
+  { id: 19, title: "Sohil yaqin, yaqin... (qissa)",                        author: "Alisher Ibodinov",                       mutolaa: false, audioUrl: "https://www.youtube.com/results?search_query=Sohil+yaqin+Alisher+Ibodinov+audio+kitob" },
+  { id: 20, title: "Sohilsiz dengiz",                                       author: "Ahmad Muhammad Tursun",                  mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=Sohilsiz+dengiz+Ahmad+Muhammad+Tursun+audio" },
+  { id: 21, title: "Hello, Amerika!",                                       author: "Bahodir Jabborov",                       mutolaa: false, audioUrl: "https://www.youtube.com/results?search_query=Hello+Amerika+Bahodir+Jabborov+audio+kitob" },
+  { id: 22, title: "Zafar darvozasi (roman)",                               author: "Erix Mariya Remark",                     mutolaa: false, audioUrl: "https://www.youtube.com/results?search_query=Zafar+darvozasi+Remark+audio+kitob+uzbek" },
+  { id: 23, title: "O'lik jonlar (roman)",                                  author: "Gogol",                                  mutolaa: true,  audioUrl: "https://www.youtube.com/results?search_query=O%27lik+jonlar+Gogol+audio+kitob+uzbek" },
+  { id: 24, title: "Tasbeh daraxti soyasida (roman)",                       author: "Harper Li",                              mutolaa: false, audioUrl: "https://www.youtube.com/results?search_query=Tasbeh+daraxti+soyasida+Harper+Li+audio+uzbek" },
+  { id: 25, title: "Jasorat to'plami",                                      author: "—",                                      mutolaa: false, audioUrl: "https://www.youtube.com/results?search_query=Jasorat+to%27plami+audio+kitob+uzbek" },
+];
+
+const STATUS = { UNREAD: "unread", READING: "reading", DONE: "done" };
+const STATUS_LABELS = { unread: "O'qilmagan", reading: "O'qilmoqda", done: "O'qildi ✓" };
+const STATUS_COLORS = { unread: "#94a3b8", reading: "#f59e0b", done: "#22c55e" };
+const STARS = [1, 2, 3, 4, 5];
+
+function getInitialProgress() {
+  try {
+    const stored = localStorage.getItem("kitobxon_progress_v2");
+    return stored ? JSON.parse(stored) : {};
+  } catch { return {}; }
+}
+function saveProgress(p) {
+  try { localStorage.setItem("kitobxon_progress_v2", JSON.stringify(p)); } catch {}
+}
+
+export default function App() {
+  const [progress, setProgress] = useState(getInitialProgress);
+  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState(""); 
+  const [selected, setSelected] = useState(null);
+
+  function updateBook(id, fields) {
+    const next = { ...progress, [id]: { ...(progress[id] || {}), ...fields } };
+    setProgress(next);
+    saveProgress(next);
+  }
+
+  const getStatus = (id) => progress[id]?.status || STATUS.UNREAD;
+  const getNote   = (id) => progress[id]?.note   || "";
+  const getRating = (id) => progress[id]?.rating  || 0;
+
+  const doneCount    = books.filter(b => getStatus(b.id) === STATUS.DONE).length;
+  const readingCount = books.filter(b => getStatus(b.id) === STATUS.READING).length;
+  const percent      = Math.round((doneCount / books.length) * 100);
+
+  const filtered = books.filter(b => {
+    const matchFilter =
+      filter === "all" ||
+      (filter === "mutolaa" && b.mutolaa) ||
+      (filter === "audio" && b.audioUrl) ||
+      filter === getStatus(b.id);
+    const matchSearch =
+      b.title.toLowerCase().includes(search.toLowerCase()) ||
+      b.author.toLowerCase().includes(search.toLowerCase());
+    return matchFilter && matchSearch;
+  });
+
+  return (
+    <div style={{ fontFamily: "'Segoe UI', sans-serif", background: "#0f172a", minHeight: "100vh", color: "#e2e8f0", paddingBottom: 40 }}>
+
+      {/* Header */}
+      <div style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%)", padding: "28px 20px 20px", borderBottom: "1px solid #1e293b" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto" }}>
+          <div style={{ fontSize: 11, letterSpacing: 3, color: "#64748b", textTransform: "uppercase", marginBottom: 6 }}>Yosh Kitobxon Oila • 2026</div>
+          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: "#f1f5f9", lineHeight: 1.2 }}>📚 O'quv Dasturi</h1>
+
+          {/* Stats row */}
+          <div style={{ display: "flex", gap: 16, marginTop: 14, flexWrap: "wrap" }}>
+            {[
+              { label: "Jami",       value: books.length,   color: "#94a3b8" },
+              { label: "O'qildi",    value: doneCount,      color: "#22c55e" },
+              { label: "Jarayonda",  value: readingCount,   color: "#f59e0b" },
+              { label: "Audio",      value: books.filter(b=>b.audioUrl).length, color: "#a78bfa" },
+            ].map(s => (
+              <div key={s.label} style={{ background: "#1e293b", borderRadius: 10, padding: "8px 14px", textAlign: "center", minWidth: 60 }}>
+                <div style={{ fontSize: 18, fontWeight: 700, color: s.color }}>{s.value}</div>
+                <div style={{ fontSize: 10, color: "#64748b", marginTop: 1 }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Progress bar */}
+          <div style={{ marginTop: 14 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#94a3b8", marginBottom: 6 }}>
+              <span>{doneCount} / {books.length} kitob o'qildi</span>
+              <span style={{ color: "#22c55e", fontWeight: 700 }}>{percent}%</span>
+            </div>
+            <div style={{ background: "#1e293b", borderRadius: 99, height: 8, overflow: "hidden" }}>
+              <div style={{ width: `${percent}%`, background: "linear-gradient(90deg, #3b82f6, #22c55e)", height: "100%", borderRadius: 99, transition: "width 0.5s" }} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 680, margin: "0 auto", padding: "20px 16px 0" }}>
+        {/* Search */}
+        <input
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="🔍 Kitob yoki muallif qidirish..."
+          style={{ width: "100%", background: "#1e293b", border: "1px solid #334155", borderRadius: 10, color: "#e2e8f0", padding: "10px 14px", fontSize: 14, marginBottom: 12, boxSizing: "border-box", outline: "none" }}
+        />
+
+        {/* Filters */}
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
+          {[
+            { key: "all",            label: "Hammasi" },
+            { key: "mutolaa",        label: "📖 Mutolaa" },
+            { key: "audio",          label: "🎧 Audio bor" },
+            { key: STATUS.UNREAD,    label: "⬜ O'qilmagan" },
+            { key: STATUS.READING,   label: "🟡 Jarayonda" },
+            { key: STATUS.DONE,      label: "🟢 Tugallangan" },
+          ].map(f => (
+            <button key={f.key} onClick={() => setFilter(f.key)} style={{
+              padding: "6px 14px", borderRadius: 99, border: "none", cursor: "pointer", fontSize: 12, fontWeight: 600,
+              background: filter === f.key ? "#3b82f6" : "#1e293b",
+              color:      filter === f.key ? "#fff"    : "#94a3b8",
+              transition: "all 0.2s"
+            }}>{f.label}</button>
+          ))}
+        </div>
+
+        {/* Book list */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {filtered.map(book => {
+            const status = getStatus(book.id);
+            const rating = getRating(book.id);
+            const isOpen = selected === book.id;
+
+            return (
+              <div key={book.id} onClick={() => setSelected(isOpen ? null : book.id)}
+                style={{ background: "#1e293b", borderRadius: 12, padding: "14px 16px", cursor: "pointer",
+                  border: `1px solid ${isOpen ? "#3b82f6" : "#334155"}`, transition: "all 0.2s" }}>
+
+                <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                  <span style={{ minWidth: 26, height: 26, borderRadius: 8, background: "#0f172a", display: "flex",
+                    alignItems: "center", justifyContent: "center", fontSize: 11, color: "#64748b", fontWeight: 700, marginTop: 1 }}>
+                    {book.id}
+                  </span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: "#f1f5f9", lineHeight: 1.3 }}>{book.title}</div>
+                    <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>{book.author}</div>
+                    <div style={{ display: "flex", gap: 6, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 11, background: "#0f172a", borderRadius: 99, padding: "2px 10px",
+                        color: STATUS_COLORS[status], border: `1px solid ${STATUS_COLORS[status]}33` }}>
+                        {STATUS_LABELS[status]}
+                      </span>
+                      {book.mutolaa && (
+                        <span style={{ fontSize: 11, background: "#1e3a5f", borderRadius: 99, padding: "2px 10px", color: "#60a5fa", border: "1px solid #1d4ed833" }}>📖 Mutolaa</span>
+                      )}
+                      {book.audioUrl && (
+                        <span style={{ fontSize: 11, background: "#2e1065", borderRadius: 99, padding: "2px 10px", color: "#a78bfa", border: "1px solid #6d28d933" }}>🎧 Audio</span>
+                      )}
+                      {rating > 0 && (
+                        <span style={{ fontSize: 12, color: "#f59e0b" }}>{"★".repeat(rating)}{"☆".repeat(5 - rating)}</span>
+                      )}
+                    </div>
+                  </div>
+                  <span style={{ color: "#334155", fontSize: 14, marginTop: 4 }}>{isOpen ? "▲" : "▼"}</span>
+                </div>
+
+                {/* Expanded */}
+                {isOpen && (
+                  <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid #334155" }}
+                    onClick={e => e.stopPropagation()}>
+
+                    {/* Audio button */}
+                    {book.audioUrl && (
+                      <div style={{ marginBottom: 14 }}>
+                        <div style={{ fontSize: 11, color: "#64748b", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>🎧 Audio Kitob</div>
+                        <a href={book.audioUrl} target="_blank" rel="noopener noreferrer"
+                          style={{ display: "flex", alignItems: "center", gap: 10, background: "linear-gradient(135deg, #2e1065, #1e1b4b)",
+                            border: "1px solid #4c1d9533", borderRadius: 10, padding: "12px 14px", textDecoration: "none", color: "inherit",
+                            transition: "all 0.2s" }}>
+                          <div style={{ width: 38, height: 38, borderRadius: 99, background: "#7c3aed", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>▶</div>
+                          <div>
+                            <div style={{ fontSize: 13, fontWeight: 600, color: "#c4b5fd" }}>YouTube'da eshitish</div>
+                            <div style={{ fontSize: 11, color: "#6d28d9", marginTop: 2 }}>Audio kitobni topish va tinglash</div>
+                          </div>
+                          <div style={{ marginLeft: "auto", fontSize: 18, color: "#4c1d95" }}>↗</div>
+                        </a>
+                      </div>
+                    )}
+
+                    {/* Status */}
+                    <div style={{ marginBottom: 12 }}>
+                      <div style={{ fontSize: 11, color: "#64748b", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Holat</div>
+                      <div style={{ display: "flex", gap: 6 }}>
+                        {Object.entries(STATUS_LABELS).map(([s, label]) => (
+                          <button key={s} onClick={() => updateBook(book.id, { status: s })} style={{
+                            flex: 1, padding: "7px 4px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 11, fontWeight: 600,
+                            background: status === s ? STATUS_COLORS[s] : "#0f172a",
+                            color:      status === s ? "#fff" : "#64748b",
+                            transition: "all 0.2s"
+                          }}>{label}</button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Rating */}
+                    <div style={{ marginBottom: 12 }}>
+                      <div style={{ fontSize: 11, color: "#64748b", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Baho</div>
+                      <div style={{ display: "flex", gap: 4 }}>
+                        {STARS.map(s => (
+                          <button key={s} onClick={() => updateBook(book.id, { rating: s === rating ? 0 : s })}
+                            style={{ background: "none", border: "none", cursor: "pointer", fontSize: 22,
+                              color: s <= rating ? "#f59e0b" : "#334155", padding: "0 2px", lineHeight: 1 }}>★</button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Note */}
+                    <div>
+                      <div style={{ fontSize: 11, color: "#64748b", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Eslatma / Fikr</div>
+                      <textarea value={getNote(book.id)} onChange={e => updateBook(book.id, { note: e.target.value })}
+                        placeholder="Bu kitob haqida fikringizni yozing..." rows={3}
+                        style={{ width: "100%", background: "#0f172a", border: "1px solid #334155", borderRadius: 8,
+                          color: "#e2e8f0", padding: "8px 12px", fontSize: 13, resize: "vertical",
+                          boxSizing: "border-box", outline: "none", fontFamily: "inherit" }} />
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {filtered.length === 0 && (
+          <div style={{ textAlign: "center", color: "#475569", padding: "40px 0", fontSize: 14 }}>Hech narsa topilmadi</div>
+        )}
+      </div>
+    </div>
+  );
+}
